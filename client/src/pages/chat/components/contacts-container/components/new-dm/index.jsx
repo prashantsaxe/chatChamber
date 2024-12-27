@@ -27,7 +27,13 @@ import { useAppStore } from "@/store";
 const NewDm = () => {
     const [openNewContactModal, setOpenNewContactModal] = useState(false);
     const [searchedContacts, setSearchedContacts] = useState([]);
-    
+    const {setSelectedChatData,setSelectedChatType } = useAppStore();
+    const selectNewContact = (contact) => {
+        setOpenNewContactModal(false);
+        setSelectedChatType("Contacts");
+        setSelectedChatData(contact);
+        setSearchedContacts([]);
+    }
 
     const searchContact = async (searchTerm) => {
         try {
@@ -78,10 +84,12 @@ const NewDm = () => {
                             onChange={(e) => searchContact(e.target.value)}
                         />
                     </div>
-                    <ScrollArea className="h-[250px]">
+                    {searchedContacts.length>0 && (<ScrollArea className="h-[250px]">
                         <div className="flex flex-col gap-5">
                             {searchedContacts.map((contact) => (
-                                <div key={contact._id} className="flex gap-3 items-center cursor-pointer">
+                                <div key={contact._id} className="flex gap-3 items-center cursor-pointer"
+                                    onClick={() => selectNewContact(contact)}>
+                                    <div className="w-12 h-12 relative">
                                     <Avatar className="h-12 w-12 rounded-full overflow-hidden">
                                         {contact.image ? (
                                             <AvatarImage
@@ -100,6 +108,7 @@ const NewDm = () => {
                                             </div>
                                         )}
                                     </Avatar>
+                                    </div>
                                     <div className="flex flex-col">
                                         <span>
                                             {contact.firstname && contact.lastname
@@ -111,15 +120,15 @@ const NewDm = () => {
                                 </div>
                             ))}
                         </div>
-                    </ScrollArea>
-
-                    {searchedContacts.length === 0 && (
-                        <div className="flex-1 md:bg-[#1c1d25] flex flex-col justify-center items-center duration-300 mb-5 h-full">
+                    </ScrollArea>)
+                    }
+                    {searchedContacts.length <= 0 && (
+                        <div className="flex-1 md:flex flex-col justify-center items-center duration-1000 mt-5 lg:mt-0 h-full transiton-all">
                             <Lottie
                                 animationData={animationData}
                                 loop
                                 autoplay
-                                style={{ height: 150, width: 200 }}
+                                style={{ height: 100, width: 100 }}
                             />
                             <div className="text-opacity-80 text-white flex flex-col gap-5 items-center mt-10 lg:text-2xl text-xl transition-all duration-300 text-center">
                                 <h3 className="poppins-medium bold">
