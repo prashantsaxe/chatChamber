@@ -41,12 +41,12 @@ const ProfileInfo = () => {
                             <AvatarImage
                                 src={`${HOST}${userInfo.image}`}
                                 alt="profile"
-                                className="object-cover w-full h-full bg-black"
+                                className=" rounded-full object-cover w-full h-full bg-black"
                                 onError={(e) => (e.target.style.display = "none")}
                             />
                         ) : (
                             <div
-                                className={`uppercase h-12 w-12 text-lg border-[1px] flex items-center justify-center text-white ${getColor(userInfo.color)}`}>
+                                className={` rounded-full uppercase h-12 w-12 text-lg border-[1px] flex items-center justify-center text-white ${getColor(userInfo.color)}`}>
                                 {userInfo.firstname ? userInfo.firstname.charAt(0) : userInfo.username.charAt(0)}
                             </div>
                         )}

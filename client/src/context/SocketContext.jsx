@@ -12,10 +12,10 @@ export const useSocket = () => {
 export const SocketProvider = ({ children }) => {
     const socket = useRef();
     const { userInfo } = useAppStore();
-    console.log("inside socket provider");
+    // console.log("inside socket provider");
     // console.log("userInfo",userInfo);
     useEffect(() => {
-        console.log("inside UseEffect");
+        // console.log("inside UseEffect");
         if (userInfo) {
             socket.current = io(HOST, {
                 withCredentials: true,
@@ -24,11 +24,11 @@ export const SocketProvider = ({ children }) => {
                 },
             });
             socket.current.on("connect", () => {
-                console.log("connected to socket server inside useEffect");
+                // console.log("connected to socket server inside useEffect");
             });
-            console.log("after on")
+            // console.log("after on")
             const handleReceiveMessage = (message) => {
-                console.log("inside handleReceiveMessage");
+                // console.log("inside handleReceiveMessage");
                 const { selectedChatType, selectedChatData, addMessage } = useAppStore.getState();
                 if (
                     selectedChatType !== undefined &&
@@ -47,7 +47,7 @@ export const SocketProvider = ({ children }) => {
             };
         }
     }, [userInfo]);
-    console.log("after useEffect");
+    // console.log("after useEffect");
     return (
         
         <SocketContext.Provider value={socket.current}>

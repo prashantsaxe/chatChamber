@@ -8,6 +8,7 @@ import path from "path";
 import { fileURLToPath } from "url";
 import contactRoutes from "./routes/ContactsRoutes.js";
 import setupSocket from "./socket.js";
+import messagesRoutes from "./routes/MessagesRoute.js";
 
 dotenv.config();
 
@@ -29,7 +30,7 @@ app.use(express.json());
 
 app.use("/api/auth",authRoutes);
 app.use("/api/contacts",contactRoutes);
-
+app.use("/api/messages",messagesRoutes);
 
 const server = app.listen(port, () => {
   console.log(`Server is running on port http//localhost:${port}`);

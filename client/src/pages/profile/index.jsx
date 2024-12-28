@@ -138,7 +138,7 @@ const Profile = () => {
                                 {image ? (
                                     <AvatarImage src={image} alt="profile" className="object-cover w-full h-full " />
                                 ) : (
-                                    <div className={`uppercase h-32 w-32 md:w-48 md:h-48 text-5xl border-[1px] flex items-center justify-center  text-white ${getColor(selectedColor)}`}>
+                                    <div className={`rounded-full uppercase h-32 w-32 md:w-48 md:h-48 text-5xl border-[1px] flex items-center justify-center  text-white ${getColor(selectedColor)}`}>
                                     {firstname ? firstname.charAt(0) : userInfo.username.charAt(0)}
                                     </div>
                                 )}

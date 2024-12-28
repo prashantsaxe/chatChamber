@@ -3,10 +3,11 @@ import { useAppStore } from "@/store";
 import { Avatar, AvatarImage } from "@radix-ui/react-avatar";
 import { HOST } from "@/utils/constants";
 import { getColor } from "@/lib/utils";
+
 export const ChatHeader = () => {
 
     const { closeChat, selectedChatData,selectedChatType } = useAppStore();
-
+    
     return (
         <div className=" h-[10vh] border-b-2 border-[#2f303b] flex items-center justify-between px-20 ">
             <div className="flex items-center gap-5 w-full justify-between ">
@@ -18,12 +19,12 @@ export const ChatHeader = () => {
                                 <AvatarImage
                                     src={`${HOST}${selectedChatData.image}`}
                                     alt={`${selectedChatData.firstname || selectedChatData.username}'s avatar`}
-                                    className="object-cover w-full h-full bg-black"
+                                    className="object-cover w-full h-full bg-black rounded-full"
                                     onError={(e) => (e.currentTarget.src = "/fallback-avatar.png")}
                                 />
                             ) : (
                                 <div
-                                    className={`uppercase h-12 w-12 text-lg border-[1px] flex items-center justify-center text-white ${getColor(selectedChatData.color)}`}
+                                    className={` rounded-full uppercase h-12 w-12 text-lg border-[1px] flex items-center justify-center text-white ${getColor(selectedChatData.color)}`}
                                 >
                                     {selectedChatData.firstname
                                         ? selectedChatData.firstname.charAt(0)
