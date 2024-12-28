@@ -1,15 +1,18 @@
 import EmojiPicker from "emoji-picker-react";
 import { useState, useRef, useEffect } from "react";
 import { GrAttachment } from "react-icons/gr";
-import { IoSend } from "react-icons/io5";
-import { RiEmojiStickerFill, RiEmojiStickerLine } from "react-icons/ri";
+import { RiEmojiStickerFill } from "react-icons/ri";
 import { Send } from "lucide-react";
+import { useAppStore } from "@/store";
+import { useSocket } from "@/context/SocketContext";
+
 
 export const MessageBar = () => {
+    const socket = useSocket();
     const emojiRef = useRef(null);
     const [message, setMessage] = useState("");
     const [emojiPickerOpen, setEmojiPickerOpen] = useState(false);
-
+    const {selectedChatType,selectedChatData,userInfo} = useAppStore();
     useEffect(()=>{
         function handleClickOutside(event){
             if(emojiRef.current && !emojiRef.current.contains(event.target)){
@@ -26,7 +29,21 @@ export const MessageBar = () => {
         setMessage((msg) => msg + emoji.emoji);
     }
     const handleSendMessage = async () => {
+        console.log(selectedChatType)
+        console.log(selectedChatData)
+        if(selectedChatType==="contact"){
+            console.log("sending message to contact")
+            socket.emit("sendMessage",{
+                sender : userInfo.id,
+                content : message,
+                recipient : selectedChatData._id,
+                messageType : "text",
+                fileUrl : undefined,
 
+            });
+            console.log(userInfo.id,message,selectedChatData._id)
+        }
+        
     }
     return (
         <div className="flex justify-center items-center  h-[10vh] bg-[#1c1d25] px-8 mb-6 gap-6 ">

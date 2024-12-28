@@ -18,7 +18,7 @@ import Lottie from "lottie-react";
 import { apiClient } from "@/lib/api-client";
 import { SEARCH_CONTACTS_ROUTE } from "@/utils/constants";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { Search } from "lucide-react";
+
 import { Avatar, AvatarImage } from "@radix-ui/react-avatar";
 import { getColor } from "@/lib/utils";
 import { HOST } from "@/utils/constants";
@@ -30,7 +30,7 @@ const NewDm = () => {
     const {setSelectedChatData,setSelectedChatType } = useAppStore();
     const selectNewContact = (contact) => {
         setOpenNewContactModal(false);
-        setSelectedChatType("Contacts");
+        setSelectedChatType("contact");
         setSelectedChatData(contact);
         setSearchedContacts([]);
     }
@@ -95,7 +95,7 @@ const NewDm = () => {
                                             <AvatarImage
                                                 src={`${HOST}${contact.image}`}
                                                 alt={`${contact.firstname || contact.username}'s avatar`}
-                                                className="object-cover w-full h-full bg-black"
+                                                className="object-cover w-full h-full bg-black "
                                                 onError={(e) => (e.currentTarget.src = "/fallback-avatar.png")}
                                             />
                                         ) : (
