@@ -23,6 +23,7 @@ app.use(cors({
 }));
 
 app.use("/uploads/profiles", express.static(path.join(__dirname, "uploads/profiles")));
+app.use("/uploads/files", express.static(path.join(__dirname, "uploads/files")));
 
 app.use(cookieParser());
 app.use(express.json()); 

@@ -7,7 +7,10 @@ import ContactsContainer from "./components/contacts-container/index.jsx";
 import EmptyChatContainer from "./components/empty-chat-container/index.jsx";
 
 const Chat = () => {
-    const {userInfo , selectedChatType} = useAppStore();
+    const {userInfo , selectedChatType,isUploading,
+    isDownloading ,
+    fileUploadProgress,
+    fileDownloadProgress} = useAppStore();
     const navigate = useNavigate();
     // console.log("chat.jsx",{userInfo});
     useEffect(()=>{
@@ -19,6 +22,18 @@ const Chat = () => {
 
     return (
         <div className="flex h-[100vh] text-white overflow-hidden "> 
+
+            { isUploading &&(
+                <div className=" h[100vh] w-[100wh] fixed top-0 left-0 bg-black/80 flex items-center flex-col gap-5 backdrop-blur-lg "  >
+                <h5 className="text-5xl  animate-pulse">Uploading Files</h5>
+                {fileUploadProgress}%
+                </div>)
+            }{ isDownloading &&(
+                <div className=" h[100vh] w-[100wh] fixed top-0 left-0 bg-black/80 flex items-center flex-col gap-5 backdrop-blur-lg "  >
+                <h5 className="text-5xl  animate-pulse">downloading Files</h5>
+                {fileDownloadProgress}%
+                </div>)
+            }
             <ContactsContainer />
             {selectedChatType==undefined?
             (<EmptyChatContainer />)
