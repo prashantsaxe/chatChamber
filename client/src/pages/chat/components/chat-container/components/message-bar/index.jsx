@@ -39,8 +39,8 @@ export const MessageBar = () => {
     };
 
     const handleSendMessage = async () => {
-        console.log(selectedChatType)
-        console.log(selectedChatData)
+        // console.log(selectedChatType)
+        // console.log(selectedChatData)
         if (selectedChatType === "contact") {
             console.log("sending message to contact")
             socket.emit("sendMessage", {
@@ -51,9 +51,18 @@ export const MessageBar = () => {
                 fileUrl: undefined,
 
             });
-            console.log(userInfo.id, message, selectedChatData._id)
+            // console.log(userInfo.id, message, selectedChatData._id)
         }
-
+        else if(selectedChatType==="channel"){
+            socket.emit("send-channel-message", {
+                sender: userInfo.id,
+                content: message,
+                messageType: "text",
+                fileUrl: undefined,
+                channelId : selectedChatData._id, 
+            });
+        }
+        setMessage("");
     }
 
     const handleAttachmentChange = async (e) => {
@@ -70,9 +79,9 @@ export const MessageBar = () => {
                     }
                 });
 
-                if (selectedChatType === "contact") {
+                if (response.status === 200 && response.data ) {
 
-                    if (response.status === 200 && response.data) {
+                    if (selectedChatType === "contact") {
                         setIsUploading(false);
                         socket.emit("sendMessage", {
                             sender: userInfo.id,
@@ -81,6 +90,14 @@ export const MessageBar = () => {
                             messageType: "file",
                             fileUrl: response.data.filePath,
 
+                        });
+                    } else if(selectedChatType==="channel"){
+                        socket.emit("send-channel-message", {
+                            sender: userInfo.id,
+                            content: undefined,
+                            messageType: "file",
+                            fileUrl: response.data.filePath,
+                            channelId : selectedChatData._id, 
                         });
                     }
                 }
