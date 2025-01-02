@@ -1,4 +1,4 @@
-# Chat App 📱💬
+# chatChamber - a chat application 📱💬
 
 A real-time chat application built using the **MERN stack** and **Socket.IO**, featuring end-to-end encryption, timestamped messages, and support for creating and managing chat channels.
 
