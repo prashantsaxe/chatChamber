@@ -75,7 +75,7 @@ const App = () => {
             <Chat />
           </PrivateRoute>
         } />
-        {/* <Route path="*" element={<Navigate to="/auth" />} /> */}
+        <Route path="*" element={<Navigate to="/auth" />} />
       </Routes>
     </BrowserRouter>
   )
