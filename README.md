@@ -145,9 +145,12 @@ This project is licensed under the **MIT License**.
 ---
 
 ## Images
-- **Profile**: ![Profile Image](https://github.com/prashantsaxe/Images/blob/main/Screenshot%202025-01-07%20000114.png)
-- **One-to-One Chat**: ![One-to-One Chat Image](https://github.com/prashantsaxe/Images/blob/main/Screenshot%202025-01-07%20000016.png)
-- **Channel Chat**: ![Channel Chat Image](https://github.com/prashantsaxe/Images/blob/main/Screenshot%202025-01-06%20235940.png)
+- **Profile**:
+- ![Profile Image](https://github.com/prashantsaxe/Images/blob/main/Screenshot%202025-01-07%20000114.png)
+- **One-to-One Chat**:
+- ![One-to-One Chat Image](https://github.com/prashantsaxe/Images/blob/main/Screenshot%202025-01-07%20000016.png)
+- **Channel Chat**:
+- ![Channel Chat Image](https://github.com/prashantsaxe/Images/blob/main/Screenshot%202025-01-06%20235940.png)
 
 
 
