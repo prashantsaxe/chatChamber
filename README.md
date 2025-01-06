@@ -79,7 +79,6 @@ A real-time chat application built using the **MERN stack** and **Socket.IO**, f
 
 ## Usage
 - **Sign Up or Log In**: Create a new account or log in with an existing one.
-- **Setup Profile**: Complete the profile setup with information like First-Name Last-Name and Profile Picture
 - **Channels**: Create or join channels to start group conversations.
 - **Real-Time Messaging**: Send and receive messages instantly.
 - **File Transfer**: Securely upload and share images and other files.
@@ -143,6 +142,15 @@ The application follows a typical MERN stack architecture:
 ## License
 This project is licensed under the **MIT License**.
 
+---
+
+## Images
+- **Profile**:
+  ![Profile Image](https://github.com/prashantsaxe/Images/blob/main/Screenshot%202025-01-07%20000114.png)
+- **One-to-One Chat**:
+  ![One-to-One Chat Image](https://github.com/prashantsaxe/Images/blob/main/Screenshot%202025-01-07%20000016.png)
+- **Channel Chat**:
+  ![Channel Chat Image](https://github.com/prashantsaxe/Images/blob/main/Screenshot%202025-01-06%20235940.png)
 
 
 
