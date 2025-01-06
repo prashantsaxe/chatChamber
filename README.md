@@ -116,14 +116,10 @@ The application follows a typical MERN stack architecture:
 - **GET /api/channels/get-user-channels**: Retrieve all channels for a user.
 - **GET /api/channels/get-channel-messages/:channelId**: Get all messages for a specific channel.
 
-![Channel Workflow](https://ibb.co/txMf5Cf)
-
 ### Contacts
 - **POST /api/contacts/search**: Search for contacts.
 - **GET /api/contacts/get-contacts-for-dm**: Retrieve contacts for direct messaging.
 - **GET /api/contacts/get-all-contacts**: Retrieve all contacts.
-
-![Contacts Management](https://ibb.co/KqKRN5c)
 
 ---
 
@@ -149,9 +145,9 @@ This project is licensed under the **MIT License**.
 ---
 
 ## Images
-- **Profile**: ![Profile Image](https://ibb.co/fC6zrXc)
-- **One-to-One Chat**: ![One-to-One Chat Image](https://ibb.co/txMf5Cf)
-- **Channel Chat**: ![Channel Chat Image](https://ibb.co/KqKRN5c)
+- **Profile**: ![Profile Image](https://github.com/prashantsaxe/Images/blob/main/Screenshot%202025-01-07%20000114.png)
+- **One-to-One Chat**: ![One-to-One Chat Image](https://github.com/prashantsaxe/Images/blob/main/Screenshot%202025-01-07%20000016.png)
+- **Channel Chat**: ![Channel Chat Image](https://github.com/prashantsaxe/Images/blob/main/Screenshot%202025-01-06%20235940.png)
 
 
 
