@@ -77,7 +77,71 @@ A real-time chat application built using the **MERN stack** and **Socket.IO**, f
 
 6. Open your browser and navigate to http://localhost:5173 to use the application.
 
+## Usage
+- **Sign Up or Log In**: Create a new account or log in with an existing one.
+- **Setup Profile**: Complete the profile setup with information like First-Name Last-Name and Profile Picture
+- **Channels**: Create or join channels to start group conversations.
+- **Real-Time Messaging**: Send and receive messages instantly.
+- **File Transfer**: Securely upload and share images and other files.
+- **Timestamps**: View timestamps for all messages to track communication.
 
+---
+
+## Architecture
+The application follows a typical MERN stack architecture:
+
+- **Frontend**: Built with React.js and styled using Tailwind CSS.
+- **Backend**: Built with Node.js and Express.js, providing RESTful API endpoints.
+- **Database**: MongoDB is used to store user data, messages, and channels.
+- **Real-Time Communication**: Socket.IO is used for real-time messaging.
+- **File Upload**: Multer is used for handling file uploads.
+
+---
+
+## API Endpoints
+### Authentication
+- **POST /api/auth/signup**: Sign up a new user.
+- **POST /api/auth/login**: Log in an existing user.
+- **GET /api/auth/get-userInfo**: Retrieve user information.
+- **POST /api/auth/update-profile**: Update user profile details.
+- **POST /api/auth/add-profile-image**: Add a profile image.
+- **DELETE /api/auth/delete-profile-image**: Delete a profile image.
+- **POST /api/auth/logout**: Log out a user.
+
+### Messages
+- **POST /api/messages/get-messages**: Retrieve messages for a chat.
+- **POST /api/messages/upload-file**: Upload a file to a chat.
+
+### Channels
+- **POST /api/channels/create-channel**: Create a new channel.
+- **GET /api/channels/get-user-channels**: Retrieve all channels for a user.
+- **GET /api/channels/get-channel-messages/:channelId**: Get all messages for a specific channel.
+
+### Contacts
+- **POST /api/contacts/search**: Search for contacts.
+- **GET /api/contacts/get-contacts-for-dm**: Retrieve contacts for direct messaging.
+- **GET /api/contacts/get-all-contacts**: Retrieve all contacts.
+
+---
+
+## Challenges and Learnings
+- Implementing real-time messaging with Socket.IO.
+- Ensuring secure file transfer and storage.
+- Managing state efficiently with Zustand.
+- Deploying the application seamlessly on Vercel.
+
+---
+
+## Future Scope
+- Implementing **end-to-end encryption** for messages.
+- Adding support for **video and voice calls**.
+- Enhancing the UI/UX for a better user experience.
+- Adding more customization options for channels and messages.
+
+---
+
+## License
+This project is licensed under the **MIT License**.
 
 
 
