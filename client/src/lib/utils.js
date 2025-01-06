@@ -19,7 +19,7 @@ export const getColor = (color) => {
   if (color >= 0 && color < colors.length) {
     return colors[color];
   }
-  return color[0];
+  return color[1];
 }
 
 export const animationDefaultOptions = {

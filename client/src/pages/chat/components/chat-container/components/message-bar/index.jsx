@@ -64,6 +64,13 @@ export const MessageBar = () => {
         }
         setMessage("");
     }
+    const handleKeyDown = (e) => {
+        if (e.key === "Enter") {
+            e.preventDefault();
+            handleSendMessage();
+        }
+    };
+
 
     const handleAttachmentChange = async (e) => {
         try {
@@ -115,9 +122,12 @@ export const MessageBar = () => {
             <div className="flex-1 flex bg-[#2a2b33] rounded-md items-center gap-5 pr-5">
                 <input
                     type="text"
-                    className="flex-1 p-5 bg-transparent rounded-md focus:border-none focus:outline-none" placeholder="Enter Message"
+                    className="flex-1 p-5 bg-transparent rounded-md focus:border-none focus:outline-none" 
+                    placeholder="Enter Message"
                     value={message}
-                    onChange={(e) => { setMessage(e.target.value) }} />
+                    onChange={(e) => { setMessage(e.target.value) }}
+                    onKeyDown={handleKeyDown} />
+                    
 
                 <button className="text-neutral-500 focus:outline-none focus:text-white duration-300 trasition-all "
                     onClick={handleAttachmentClick}>
