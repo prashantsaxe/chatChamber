@@ -79,7 +79,6 @@ A real-time chat application built using the **MERN stack** and **Socket.IO**, f
 
 ## Usage
 - **Sign Up or Log In**: Create a new account or log in with an existing one.
-- **Setup Profile**: Complete the profile setup with information like First-Name Last-Name and Profile Picture
 - **Channels**: Create or join channels to start group conversations.
 - **Real-Time Messaging**: Send and receive messages instantly.
 - **File Transfer**: Securely upload and share images and other files.
@@ -117,10 +116,14 @@ The application follows a typical MERN stack architecture:
 - **GET /api/channels/get-user-channels**: Retrieve all channels for a user.
 - **GET /api/channels/get-channel-messages/:channelId**: Get all messages for a specific channel.
 
+![Channel Workflow](https://ibb.co/txMf5Cf)
+
 ### Contacts
 - **POST /api/contacts/search**: Search for contacts.
 - **GET /api/contacts/get-contacts-for-dm**: Retrieve contacts for direct messaging.
 - **GET /api/contacts/get-all-contacts**: Retrieve all contacts.
+
+![Contacts Management](https://ibb.co/KqKRN5c)
 
 ---
 
@@ -143,6 +146,12 @@ The application follows a typical MERN stack architecture:
 ## License
 This project is licensed under the **MIT License**.
 
+---
+
+## Images
+- **Profile**: ![Profile Image](https://ibb.co/fC6zrXc)
+- **One-to-One Chat**: ![One-to-One Chat Image](https://ibb.co/txMf5Cf)
+- **Channel Chat**: ![Channel Chat Image](https://ibb.co/KqKRN5c)
 
 
 
