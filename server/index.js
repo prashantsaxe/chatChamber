@@ -21,7 +21,7 @@ const databaseURL =process.env.DATABASE_URL;
 
 const allowedOrigins = [
   process.env.ORIGIN,
-  "https://chat-chamber.vercel.app"
+  "https://chat-chamber.vercel.app/"
 ];
 
 app.use(cors({
@@ -37,8 +37,7 @@ app.use(cors({
 
 // app.use("/uploads/profiles", express.static(path.join(__dirname, "uploads/profiles")));
 // app.use("/uploads/files", express.static(path.join(__dirname, "uploads/files")));
-app.use(express.json({ limit: "50mb" })); // For JSON payloads
-app.use(express.urlencoded({ limit: "50mb", extended: true })); // For form data
+
 app.use(cookieParser());
 app.use(express.json()); 
 
