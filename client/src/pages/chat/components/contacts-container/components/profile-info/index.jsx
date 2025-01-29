@@ -30,8 +30,9 @@ const ProfileInfo = () => {
             console.error(error);
         }
     };
-    if(!userInfo.color) return <div>Loading...</div>;
+    if (userInfo.color === null || userInfo.color === undefined) return <div>Loading...</div>;
 
+    console.log(userInfo.color);
     return (
         <div className="absolute bottom-0 h-16 flex items-center justify-between px-5 gap-2 w-full bg-[#2a2b33]">
             <div className="flex justify-center gap-3 items-center">
