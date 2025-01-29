@@ -1,4 +1,4 @@
-export const HOST = import.meta.env.VITE_SERVER_URL || "http://localhost:5000";
+export const HOST = "https://chat-chamber-yx69.vercel.app/"
 
 
 export const AUTH_ROUTE = "api/auth";
