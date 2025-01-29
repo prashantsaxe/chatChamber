@@ -41,7 +41,7 @@ export const MessageContainer = () => {
                 const response = await apiClient.get(`${GET_CHANNEL_MESSAGES_ROUTE}/${selectedChatData._id}`,
                     { withCredentials: true }
                 );
-                console.log("response here : ", { response});
+                console.log("response here : ", { response });
                 if (response.data.messages) {
                     setSelectedChatMessages(response.data.messages);
                 }
@@ -54,8 +54,7 @@ export const MessageContainer = () => {
             console.log("selectedChatType", selectedChatType);
             if (selectedChatType === "contact") {
                 getMessages();
-            }
-            else if(selectedChatType === "channel"){
+            } else if (selectedChatType === "channel") {
                 getChannelMessages();
             }
         }
@@ -66,6 +65,7 @@ export const MessageContainer = () => {
         if (scrollRef.current) {
             scrollRef.current.scrollIntoView({ behavior: "smooth" });
         }
+        
     }, [selectedChatMessages]);
 
     const checkIfImage = (filePath) => {
@@ -114,10 +114,12 @@ export const MessageContainer = () => {
                         {checkIfImage(message.fileUrl) ?
                             <div className="cursor-pointer"
                                 onClick={() => {
+                                    setImageUrl(message.fileUrl);
                                     setShowImage(true);
-                                    setImageUrl(message.fileUrl)
+                                    
                                 }}>
-                                <img src={`${HOST}${message.fileUrl}`} height={300} width={300} />
+                                <img src={message.fileUrl} height={300} width={300} />
+
 
                             </div>
                             : <div className="items-center flex gap-4 justify-center">
@@ -142,7 +144,7 @@ export const MessageContainer = () => {
                             <Avatar className="h-6 w-6 rounded-full overflow-hidden">
                                 {message.sender.image && (
                                     <AvatarImage
-                                        src={`${HOST}${message.sender.image}`}
+                                        src={message.sender.image}
                                         alt="profile"
                                         className="object-cover w-full h-full bg-black rounded-full"
                                         onError={(e) => (e.currentTarget.src = "/fallback-avatar.png")}
@@ -174,13 +176,22 @@ export const MessageContainer = () => {
         try {
             setIsDownloading(true);
             setFileDownloadProgress(0);
+
+            // Cloudinary files can be directly opened
+            if (url.includes("cloudinary.com")) {
+                window.open(url, "_blank"); // Opens in a new tab
+                setIsDownloading(false);
+                return;
+            }
+
+            // Handle local files
             const response = await axios.get(url, {
                 responseType: "blob",
                 onDownloadProgress: (data) => {
-                    setFileDownloadProgress(Math.round(100 * data.loaded) / data.total)
-                }
-            }
-            );
+                    setFileDownloadProgress(Math.round(100 * data.loaded) / data.total);
+                },
+            });
+
             const urlBlob = window.URL.createObjectURL(new Blob([response.data]));
             const link = document.createElement("a");
             link.href = urlBlob;
@@ -193,8 +204,10 @@ export const MessageContainer = () => {
             setFileDownloadProgress(0);
         } catch (error) {
             console.error("Error downloading the file:", error);
+            setIsDownloading(false);
         }
     };
+
 
     const renderDMMessages = (message) => {
         return (
@@ -221,7 +234,8 @@ export const MessageContainer = () => {
                                     setShowImage(true);
                                     setImageUrl(message.fileUrl)
                                 }}>
-                                <img src={`${HOST}${message.fileUrl}`} height={300} width={300} />
+                                <img src={message.fileUrl} height={300} width={300} />
+
 
                             </div>
                             : <div className="items-center flex gap-4 justify-center">
@@ -244,13 +258,14 @@ export const MessageContainer = () => {
                 </div>
             </div>)
     }
+    // console.log(imageUrl);
     return (
         <div className="flex-1 overflow-y-scroll  p-4 px-8  md:w-[65vw] lg:w-[70vw] xl:w-[80vw] w-full h-[400px] ">
             {renderMessages()}
             <div ref={scrollRef} />
             {showImage && (
                 <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-black bg-opacity-75 z-50">
-                    <img src={`${HOST}${imageUrl}`} alt="Preview" className="max-h-[80vh] w-full object-cover" />
+                    <img src={imageUrl} alt="Preview" className="max-h-[80vh] w-full object-cover" />
                     <div className="fixed top-5  flex gap-5 items-center justify-center ">
                         <button
                             className="bg-gray-800 p-3 text-2xl rounded-full cursor-pointer transition-all duration-300"

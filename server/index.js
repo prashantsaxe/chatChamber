@@ -16,16 +16,29 @@ dotenv.config();
 const app = express();
 const port = process.env.port || 6000;
 const databaseURL =process.env.DATABASE_URL;
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
+// const __filename = fileURLToPath(import.meta.url);
+// const __dirname = path.dirname(__filename);
+
+const allowedOrigins = [
+  process.env.ORIGIN,
+  "https://chat-chamber.vercel.app"
+];
+
 app.use(cors({
-  origin: process.env.ORIGIN,
+  origin: (origin, callback) => {
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error("Not allowed by CORS"));
+    }
+  },
   credentials: true,
 }));
 
-app.use("/uploads/profiles", express.static(path.join(__dirname, "uploads/profiles")));
-app.use("/uploads/files", express.static(path.join(__dirname, "uploads/files")));
-
+// app.use("/uploads/profiles", express.static(path.join(__dirname, "uploads/profiles")));
+// app.use("/uploads/files", express.static(path.join(__dirname, "uploads/files")));
+app.use(express.json({ limit: "50mb" })); // For JSON payloads
+app.use(express.urlencoded({ limit: "50mb", extended: true })); // For form data
 app.use(cookieParser());
 app.use(express.json()); 
 

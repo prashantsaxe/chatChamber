@@ -18,7 +18,7 @@ export const ChatHeader = () => {
                             <Avatar className="h-12 w-12 rounded-full overflow-hidden">
                                 {selectedChatData.image ? (
                                     <AvatarImage
-                                        src={`${HOST}${selectedChatData.image}`}
+                                        src={selectedChatData.image}
                                         alt={`${selectedChatData.firstname || selectedChatData.username}'s avatar`}
                                         className="object-cover w-full h-full bg-black rounded-full"
                                         onError={(e) => (e.currentTarget.src = "/fallback-avatar.png")}

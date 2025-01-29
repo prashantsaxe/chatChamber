@@ -7,6 +7,7 @@ import { useAppStore } from "@/store";
 import { useSocket } from "@/context/SocketContext";
 import { UPLOAD_FILE_ROUTE } from "@/utils/constants";
 import { apiClient } from "@/lib/api-client";
+import { toast } from "sonner";
 
 
 export const MessageBar = () => {
@@ -75,46 +76,63 @@ export const MessageBar = () => {
     const handleAttachmentChange = async (e) => {
         try {
             const file = e.target.files[0];
-            console.log({ file });
-            if (file) {
-                const formData = new FormData();
-                formData.append("file", file);
-                setIsUploading(true);
-                const response = await apiClient.post(UPLOAD_FILE_ROUTE, formData, { withCredentials: true ,
-                    onUploadProgress : (data)=>{
-                        setFileUploadProgress(Math.round(100*data.loaded)/data.total)
-                    }
-                });
-
-                if (response.status === 200 && response.data ) {
-
-                    if (selectedChatType === "contact") {
-                        setIsUploading(false);
-                        socket.emit("sendMessage", {
+            if (!file) return;
+    
+            const reader = new FileReader();
+            reader.readAsDataURL(file); // Convert to Base64
+            reader.onloadend = async () => {
+                const base64File = reader.result;
+                const fileType = file.type.split("/")[1]; // Extract file extension
+    
+                try {
+                    const response = await apiClient.post(
+                        "/api/messages/upload-file",
+                        {
+                            file: base64File,  // ✅ Sends Base64 file data
+                            fileType: fileType, // ✅ Sends file type
+                            messageType: "file", // ✅ Required for backend validation
+                            content: "", // ✅ Fix: Ensures empty content for file messages
+                            receiverId: selectedChatData._id,
+                        },
+                        { withCredentials: true }
+                    );
+    
+                    if (response.status === 200 && response.data.fileUrl) {
+                        console.log("✅ File Uploaded Successfully:", response.data);
+                        toast.success("File sent successfully");
+    
+                        // Send message via socket if the file is uploaded
+                        const messagePayload = {
                             sender: userInfo.id,
-                            content: undefined,
-                            recipient: selectedChatData._id,
                             messageType: "file",
-                            fileUrl: response.data.filePath,
-
-                        });
-                    } else if(selectedChatType==="channel"){
-                        socket.emit("send-channel-message", {
-                            sender: userInfo.id,
-                            content: undefined,
-                            messageType: "file",
-                            fileUrl: response.data.filePath,
-                            channelId : selectedChatData._id, 
-                        });
+                            fileUrl: response.data.fileUrl,
+                            content: "", // ✅ Ensures empty content field
+                        };
+    
+                        if (selectedChatType === "contact") {
+                            socket.emit("sendMessage", {
+                                ...messagePayload,
+                                recipient: selectedChatData._id,
+                            });
+                        } else if (selectedChatType === "channel") {
+                            socket.emit("send-channel-message", {
+                                ...messagePayload,
+                                channelId: selectedChatData._id,
+                            });
+                        }
                     }
+                } catch (error) {
+                    console.error("❌ File Upload Error:", error);
+                    toast.error("Failed to send file");
                 }
-            }
-
+            };
         } catch (error) {
-            setIsUploading(false);
-            console.log({ error });
+            console.error("❌ File Selection Error:", error);
         }
-    }
+    };
+    
+    
+    
 
     return (
         <div className="flex justify-center items-center  h-[10vh] bg-[#1c1d25] px-8 mb-6 gap-6 ">

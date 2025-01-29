@@ -31,17 +31,22 @@ const Profile = () => {
         }
         return true;
     }
-
+    console.log(image);
     useEffect(() => {
         if (userInfo.profileSetup) {
             setFirstName(userInfo.firstname);
             setLastName(userInfo.lastname);
             setSelectedColor(userInfo.color);
         }
-        if (userInfo.image) {           
-            const imageUrl = `${HOST}${userInfo.image}`;
-            console.log({ imageUrl });
-            setImage(imageUrl);
+        if (userInfo.image) {
+            console.log("User Info Image:", userInfo.image); // Debugging
+    
+            //  FIX: Use the image URL directly without `HOST`
+            if (userInfo.image.includes("cloudinary.com")) {
+                setImage(userInfo.image); //  Use Cloudinary URL directly
+            } else {
+                setImage(`${HOST}${userInfo.image}`); // If it's a local file (unlikely in this case)
+            }
         }
     }, [userInfo]);
 
@@ -82,26 +87,46 @@ const Profile = () => {
     }
     const handleImageChange = async (e) => {
         const file = e.target.files[0];
-        console.log({ file });
-        if (file) {
-            const formData = new FormData();
-            formData.append("profile-image", file);
+    
+        if (!file) return;
+        
+        // ✅ Validate file type
+        const allowedTypes = ["image/jpeg", "image/png", "image/jpg", "image/webp"];
+        if (!allowedTypes.includes(file.type)) {
+            toast.error("Only JPG, PNG, and WebP formats are allowed!");
+            return;
+        }
+    
+        // ✅ Validate file size (max 5MB)
+        if (file.size > 5 * 1024 * 1024) {
+            toast.error("File size must be less than 5MB!");
+            return;
+        }
+    
+        const reader = new FileReader();
+        reader.readAsDataURL(file); // Convert to Base64
+        reader.onloadend = async () => {
+            const base64Image = reader.result;
+    
             try {
-                const response = await apiClient.post(ADD_PROFILE_IMAGE_ROUTE, formData, { withCredentials: true });
+                const response = await apiClient.post(
+                    ADD_PROFILE_IMAGE_ROUTE, 
+                    { image: base64Image },
+                    { withCredentials: true }
+                );
+    
                 if (response.status === 200 && response.data.image) {
-                    
-                    const imageUrl =`${HOST}${userInfo.image}`;
                     setUserInfo({ ...userInfo, image: response.data.image });
-                    setImage(imageUrl);
+                    setImage(response.data.image);
                     toast.success("Image Uploaded Successfully");
-                    e.target.value = null;
                 }
             } catch (error) {
-                console.log({ error });
                 toast.error("Failed to upload image");
+                console.error(" Upload Error:", error.response ? error.response.data : error);
             }
-        }
-    }
+        };
+    };
+    
     const handleDeleteImage = async (e) => {
         try {
             const response = await apiClient.delete(REMOVE_PROFILE_IMAGE_ROUTE, { withCredentials: true });

@@ -4,6 +4,7 @@ import jwt from "jsonwebtoken";
 import { renameSync, unlink, unlinkSync,existsSync } from "fs";
 import path from "path";
 import { fileURLToPath } from 'url';
+import cloudinary from "../cloudinaryConfig.js";
 
 const maxAge = 3 * 24 * 60 * 60 * 1000;
 
@@ -16,8 +17,8 @@ const createToken = (email, userId) => {
             expiresIn: maxAge
         });
 }
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
+// const __filename = fileURLToPath(import.meta.url);
+// const __dirname = path.dirname(__filename);
 export const signup = async (req, res, next) => {
     try {
 
@@ -165,56 +166,73 @@ export const updateprofile = async (req, res, next) => {
     }
 }
 
-export const addprofileimage = async (req, res, next) => {
+
+
+export const addprofileimage = async (req, res) => {
     try {
+        console.log("📌 Entered addprofileimage route");
 
-        const date = Date.now();
-        let filename = "uploads/profiles/" + date + req.file.originalname;
-        renameSync(req.file.path, filename);
+        if (!req.body.image) {
+            console.log("❌ No image received in request");
+            return res.status(400).json({ error: "Profile image is required" });
+        }
 
+        console.log("📌 Uploading to Cloudinary...");
+        
+        const result = await cloudinary.uploader.upload(req.body.image, {
+            folder: "uploads/profiles",
+            resource_type: "image",
+            allowed_formats: ["jpg", "png", "jpeg", "webp"], // ✅ Allow only safe image formats
+            transformation: [{ width: 500, height: 500, crop: "limit" }], // ✅ Resize to prevent huge images
+        });
+        
+
+        console.log("✅ Cloudinary Upload Success:", result.secure_url);
+
+        // Update user profile in database
         const updatedUser = await User.findByIdAndUpdate(
             req.userId,
-            { image: filename },
+            { image: result.secure_url }, // Save Cloudinary URL
             { new: true, runValidators: true }
         );
 
-        return res.status(200).json({
-            image: updatedUser.image,
-        });
+        if (!updatedUser) {
+            console.log("❌ User not found in database");
+            return res.status(404).json({ error: "User not found" });
+        }
+
+        return res.status(200).json({ image: result.secure_url });
+
     } catch (error) {
-        console.log({ error });
-        return res.status(500).send("Internal Server Error");
+        console.error("❌ Upload Profile Image Error:", error);
+        return res.status(500).json({ error: "Internal Server Error", details: error.message });
     }
 };
 
-export const deleteprofileimage = async (req, res, next) => {
+  
+
+export const deleteprofileimage = async (req, res) => {
     try {
-        const { userId } = req;
-
-        const user = await User.findById(userId);
-
-        if (!user) {
-            return res.status(400).send("User not found");
-        }
-        console.log({ "user.image": user.image });
-        if (user.image) {
-            const imagePath = path.join(__dirname, '..', user.image);
-            console.log("Image Path:", imagePath);
-            if (existsSync(imagePath)) {
-                unlinkSync(imagePath);
-            } else {
-                console.log("File does not exist:", imagePath);
-            }
-        }
-        user.image = null;
-        await user.save();
-        return res.status(200).send("Profile Image Removed Successfully");
+      const user = await User.findById(req.userId);
+      if (!user || !user.image) return res.status(404).json({ error: "User or image not found" });
+  
+      // Extract Cloudinary public ID
+      const publicId = user.image.split("/").pop().split(".")[0];
+  
+      // Delete image from Cloudinary
+      await cloudinary.uploader.destroy(`uploads/profiles/${publicId}`);
+  
+      // Remove image from database
+      user.image = null;
+      await user.save();
+  
+      return res.status(200).json({ message: "Profile image removed successfully" });
+    } catch (error) {
+      console.error("Delete Profile Image Error:", error);
+      return res.status(500).json({ error: "Internal Server Error" });
     }
-    catch (error) {
-        console.log({ error });
-        return res.status(500).send("Internal Server Error");
-    }
-}
+  };
+  
 
 export const logout = async (req, res, next) => {
     try {

@@ -19,14 +19,20 @@ const messageSchema = new mongoose.Schema({
     },
     content : {
         type : String,
-        required : function ( ){
-            return this.messageType === "text";
+        validate: {
+            validator: function () {
+                return this.messageType === "text" ? !!this.content : true;
+            },
+            message: "Content is required for text messages.",
         },
     },
     fileUrl : {
         type : String,
-        required : function ( ){
-            return this.messageType === "file";
+        validate: {
+            validator: function () {
+                return this.messageType === "file" ? !!this.fileUrl : true;
+            },
+            message: "File URL is required for file messages.",
         },
     },
     timeStamp : {
