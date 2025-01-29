@@ -20,8 +20,8 @@ const databaseURL =process.env.DATABASE_URL;
 // const __dirname = path.dirname(__filename);
 
 const allowedOrigins = [
-  process.env.ORIGIN,
-  "https://chat-chamber.vercel.app/"
+  process.env.ORIGIN || "http://localhost:5000",
+  "https://chat-chamber.vercel.app"
 ];
 
 app.use(cors({
