@@ -14,7 +14,7 @@ import channelRoutes from "./routes/ChannelRoute.js";
 dotenv.config();
 
 const app = express();
-const port = process.env.port || 6000;
+const port = process.env.port || 5000;
 const databaseURL =process.env.DATABASE_URL;
 // const __filename = fileURLToPath(import.meta.url);
 // const __dirname = path.dirname(__filename);
