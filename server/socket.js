@@ -6,7 +6,7 @@ import Channel from "./models/ChannelModal.js";
 const setupSocket = (server) => {
     const io = new SocketIOServer(server, {
         cors: {
-            origin: process.env.ORIGIN,
+            origin: ["https://chat-chamber.vercel.app", "http://localhost:5173"],
             methods: ["GET", "POST"],
             credentials: true
         },

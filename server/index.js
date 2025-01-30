@@ -14,6 +14,9 @@ import channelRoutes from "./routes/ChannelRoute.js";
 dotenv.config();
 
 const app = express();
+
+app.use(express.json({ limit: "10mb" })); // Increase JSON payload limit
+app.use(express.urlencoded({ limit: "10mb", extended: true })); // Increase URL-encoded form size
 const port = process.env.port || 5000;
 const databaseURL =process.env.DATABASE_URL;
 // const __filename = fileURLToPath(import.meta.url);
@@ -21,8 +24,8 @@ const databaseURL =process.env.DATABASE_URL;
 
 const allowedOrigins = [
   "https://chat-chamber.vercel.app",
-  "https://chat-chamber-yx69.vercel.app",
-  "http://localhost:5000" // Include localhost for development
+  "https://chatchamber.onrender.com",
+  "http://localhost:5173" // Include localhost for development
 ];
 
 app.use(cors({
