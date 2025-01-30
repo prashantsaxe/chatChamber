@@ -33,10 +33,10 @@ export const signup = async (req, res, next) => {
         }
 
         // Check if the username already exists
-        const existingUsername = await User.findOne({ username });
-        if (existingUsername) {
-            return res.status(400).send("Username already in use");
-        }
+        // const existingUsername = await User.findOne({ username });
+        // if (existingUsername) {
+        //     return res.status(400).send("Username already in use");
+        // }
         const user = await User.create({ email, password, username });
         res.cookie("jwt", createToken(email, user.id), {
             httpOnly: true,
